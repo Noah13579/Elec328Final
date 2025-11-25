@@ -32,7 +32,7 @@ UserSettings/Layouts/  # Optional: keeps general UserSettings but ignores layout
 
 # Visual Studio
 .vs/
-
+.vscode/
 # ========== Build Artifacts ==========
 *.apk
 *.aab
