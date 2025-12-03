@@ -50,6 +50,8 @@ UserSettings/Layouts/  # Optional: keeps general UserSettings but ignores layout
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+Assets/only\ rocks/
+Assets/only\ rocks.meta
 
 # ========== Keep Only These Folders ==========
 # (Git tracks these automatically as long as they exist)
