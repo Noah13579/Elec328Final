@@ -2,7 +2,7 @@ Shader "Custom/URP_PerspectiveProjectionSurface"
 {
     Properties
     {
-        [MainTexture] _UserCamTex("User Camera Texture", 2D) = "white" {}
+        [MainTexture] _WeatheredTex("Weathered Texture", 2D) = "white" {}
     }
 
     SubShader
@@ -19,15 +19,14 @@ Shader "Custom/URP_PerspectiveProjectionSurface"
             #pragma vertex vert
             #pragma fragment frag
 
-            // Core URP includes
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            // UserCam texture + sampler
-            TEXTURE2D(_UserCamTex);
-            SAMPLER(sampler_UserCamTex);
+            // Texture and sampler
+            TEXTURE2D(_WeatheredTex);
+            SAMPLER(sampler_WeatheredTex);
 
-            // Matrix passed from C# (GPU projection * worldToCamera)
-            float4x4 _UserCamW2C;
+            // Weathered camera worldToCamera * GPU projection
+            float4x4 _WeatheredW2C;
 
             struct Attributes
             {
@@ -44,16 +43,11 @@ Shader "Custom/URP_PerspectiveProjectionSurface"
             {
                 Varyings OUT;
 
-                // Convert from object space to world space
                 float3 worldPos = TransformObjectToWorld(IN.positionOS.xyz);
 
-                // Project with User Camera matrix
-                float4 clipPos = mul(_UserCamW2C, float4(worldPos, 1.0));
+                float4 clipPos = mul(_WeatheredW2C, float4(worldPos, 1.0));
 
-                // Output position for drawing quad normally
                 OUT.positionHCS = TransformWorldToHClip(worldPos);
-
-                // Output the projection
                 OUT.projPos = clipPos;
 
                 return OUT;
@@ -63,10 +57,9 @@ Shader "Custom/URP_PerspectiveProjectionSurface"
             {
                 float2 uv = IN.projPos.xy / IN.projPos.w;
 
-                // Normalize the uvs
                 uv = uv * 0.5 + 0.5;
 
-                return SAMPLE_TEXTURE2D(_UserCamTex, sampler_UserCamTex, uv);
+                return SAMPLE_TEXTURE2D(_WeatheredTex, sampler_WeatheredTex, uv);
             }
 
             ENDHLSL
