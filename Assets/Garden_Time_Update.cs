@@ -7,7 +7,7 @@ public class Time_Update : MonoBehaviour
     private static readonly int Sharpness = Shader.PropertyToID("_Sharpness");
     private float duration = 30f;
     private float startValue = 0f;
-    private float endValue = 0.2f;
+    private float endValue = 0.4f;
     private float elapsedTime = 0f;
     private float sharpnessMultiplier = 10;
 
